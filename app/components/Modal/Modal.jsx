@@ -4,19 +4,37 @@ import './Modal.css';
 /**
  * Composant Modal
  * 
- * Un composant simple de fenêtre modale qui peut être utilisé pour afficher
+ * Un composant de fenêtre modale réutilisable qui peut être utilisé pour afficher
  * des informations ou demander confirmation à l'utilisateur.
+ * 
+ * @example
+ * ```jsx
+ * <Modal
+ *   isOpen={isModalOpen}
+ *   onClose={() => setIsModalOpen(false)}
+ *   title="Confirmation"
+ *   size="md"
+ * >
+ *   <p>Êtes-vous sûr de vouloir continuer ?</p>
+ *   <Modal.Footer>
+ *     <button onClick={() => setIsModalOpen(false)}>Annuler</button>
+ *     <button onClick={handleConfirm}>Confirmer</button>
+ *   </Modal.Footer>
+ * </Modal>
+ * ```
  * 
  * @param {Object} props - Les propriétés du composant
  * @param {boolean} props.isOpen - Indique si le modal est ouvert
  * @param {function} props.onClose - Fonction appelée lorsque le modal est fermé
  * @param {React.ReactNode} props.children - Contenu à afficher dans le modal
- * @param {string} props.className - Classes CSS additionnelles
- * @param {boolean} props.closeOnEscape - Si true, le modal se ferme avec la touche Escape
- * @param {boolean} props.closeOnClickOutside - Si true, le modal se ferme en cliquant à l'extérieur
- * @param {string} props.size - Taille du modal ('sm', 'md', 'lg')
- * @param {React.ReactNode} props.footer - Contenu du pied de modal (optionnel)
- * @param {string} props.title - Titre du modal (optionnel)
+ * @param {string} [props.className=''] - Classes CSS additionnelles
+ * @param {boolean} [props.closeOnEscape=true] - Si true, le modal se ferme avec la touche Escape
+ * @param {boolean} [props.closeOnClickOutside=true] - Si true, le modal se ferme en cliquant à l'extérieur
+ * @param {('sm'|'md'|'lg')} [props.size='md'] - Taille du modal ('sm', 'md', 'lg')
+ * @param {React.ReactNode} [props.footer] - Contenu du pied de modal (optionnel)
+ * @param {string} [props.title] - Titre du modal (optionnel)
+ * 
+ * @returns {JSX.Element} Le composant Modal
  */
 const Modal = ({
   isOpen,

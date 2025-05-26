@@ -1,28 +1,36 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
 import Modal from '../../components/Modal';
+import { addEmployee } from '../../store/features/employeeSlice';
 import { states } from '../../data/states';
 import { departments } from '../../data/departments';
 import "react-datepicker/dist/react-datepicker.css";
 import './page.css';
 
 /**
- * Page de création d'un nouvel employé
+ * @component CreateEmployee
+ * @description Composant de création d'un nouvel employé avec formulaire et validation
+ * @returns {JSX.Element} Formulaire de création d'employé
  */
 const CreateEmployee = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // États du formulaire
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState(null);
-  const [zipCode, setZipCode] = useState('');
-  const [department, setDepartment] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    dateOfBirth: null,
+    startDate: null,
+    street: '',
+    city: '',
+    state: null,
+    zipCode: '',
+    department: null
+  });
   
   // État pour le modal
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,56 +45,55 @@ const CreateEmployee = () => {
     value: dept,
     label: dept
   }));
+
+  /**
+   * Gestionnaire de changement pour les champs du formulaire
+   * @param {string} field - Nom du champ
+   * @param {any} value - Nouvelle valeur
+   */
+  const handleFieldChange = useCallback((field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  }, []);
   
   /**
    * Gestion de la soumission du formulaire
+   * @param {Event} e - Événement de soumission
    */
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     
-    // Récupération des données actuelles des employés
-    const employees = JSON.parse(localStorage.getItem('employees')) || [];
-    
-    // Création du nouvel employé
     const newEmployee = {
-      firstName,
-      lastName,
-      dateOfBirth: dateOfBirth ? dateOfBirth.toLocaleDateString() : '',
-      startDate: startDate ? startDate.toLocaleDateString() : '',
-      street,
-      city,
-      state: state ? state.value : '',
-      zipCode,
-      department: department ? department.value : ''
+      ...formData,
+      dateOfBirth: formData.dateOfBirth ? formData.dateOfBirth.toLocaleDateString() : '',
+      startDate: formData.startDate ? formData.startDate.toLocaleDateString() : '',
+      state: formData.state ? formData.state.value : '',
+      department: formData.department ? formData.department.value : ''
     };
     
-    // Ajout du nouvel employé à la liste
-    employees.push(newEmployee);
-    
-    // Sauvegarde dans le localStorage
-    localStorage.setItem('employees', JSON.stringify(employees));
-    
-    // Ouverture du modal de confirmation
+    dispatch(addEmployee(newEmployee));
     setIsModalOpen(true);
-    
-    // Réinitialisation du formulaire
     resetForm();
-  };
+  }, [formData, dispatch]);
   
   /**
    * Réinitialisation du formulaire
    */
-  const resetForm = () => {
-    setFirstName('');
-    setLastName('');
-    setDateOfBirth(null);
-    setStartDate(null);
-    setStreet('');
-    setCity('');
-    setState(null);
-    setZipCode('');
-    setDepartment(null);
-  };
+  const resetForm = useCallback(() => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      dateOfBirth: null,
+      startDate: null,
+      street: '',
+      city: '',
+      state: null,
+      zipCode: '',
+      department: null
+    });
+  }, []);
   
   // Boutons pour le pied de page du modal
   const modalFooter = (
@@ -128,8 +135,8 @@ const CreateEmployee = () => {
               <input 
                 type="text" 
                 id="first-name" 
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
+                value={formData.firstName}
+                onChange={(e) => handleFieldChange('firstName', e.target.value)}
                 required
               />
             </div>
@@ -139,8 +146,8 @@ const CreateEmployee = () => {
               <input 
                 type="text" 
                 id="last-name" 
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={formData.lastName}
+                onChange={(e) => handleFieldChange('lastName', e.target.value)}
                 required
               />
             </div>
@@ -149,8 +156,8 @@ const CreateEmployee = () => {
               <label htmlFor="date-of-birth">Date de naissance</label>
               <DatePicker
                 id="date-of-birth"
-                selected={dateOfBirth}
-                onChange={setDateOfBirth}
+                selected={formData.dateOfBirth}
+                onChange={(date) => handleFieldChange('dateOfBirth', date)}
                 dateFormat="dd/MM/yyyy"
                 showYearDropdown
                 scrollableYearDropdown
@@ -164,8 +171,8 @@ const CreateEmployee = () => {
               <label htmlFor="start-date">Date de début</label>
               <DatePicker
                 id="start-date"
-                selected={startDate}
-                onChange={setStartDate}
+                selected={formData.startDate}
+                onChange={(date) => handleFieldChange('startDate', date)}
                 dateFormat="dd/MM/yyyy"
                 showYearDropdown
                 placeholderText="Sélectionner une date"
@@ -182,8 +189,8 @@ const CreateEmployee = () => {
                   <input 
                     id="street" 
                     type="text"
-                    value={street}
-                    onChange={(e) => setStreet(e.target.value)}
+                    value={formData.street}
+                    onChange={(e) => handleFieldChange('street', e.target.value)}
                     required
                   />
                 </div>
@@ -193,8 +200,8 @@ const CreateEmployee = () => {
                   <input 
                     id="city" 
                     type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    value={formData.city}
+                    onChange={(e) => handleFieldChange('city', e.target.value)}
                     required
                   />
                 </div>
@@ -206,8 +213,8 @@ const CreateEmployee = () => {
                   <Select
                     id="state"
                     classNamePrefix="select"
-                    value={state}
-                    onChange={setState}
+                    value={formData.state}
+                    onChange={(option) => handleFieldChange('state', option)}
                     options={stateOptions}
                     placeholder="Sélectionner un état"
                     required
@@ -221,8 +228,8 @@ const CreateEmployee = () => {
                     type="text"
                     pattern="[0-9]*"
                     maxLength="5"
-                    value={zipCode}
-                    onChange={(e) => setZipCode(e.target.value)}
+                    value={formData.zipCode}
+                    onChange={(e) => handleFieldChange('zipCode', e.target.value)}
                     required
                   />
                 </div>
@@ -234,8 +241,8 @@ const CreateEmployee = () => {
               <Select
                 id="department"
                 classNamePrefix="select"
-                value={department}
-                onChange={setDepartment}
+                value={formData.department}
+                onChange={(option) => handleFieldChange('department', option)}
                 options={departmentOptions}
                 placeholder="Sélectionner un département"
                 required
@@ -251,7 +258,6 @@ const CreateEmployee = () => {
         </div>
       </div>
       
-      {/* Modal de confirmation */}
       <Modal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}
@@ -269,4 +275,4 @@ const CreateEmployee = () => {
   );
 };
 
-export default CreateEmployee; 
+export default CreateEmployee;

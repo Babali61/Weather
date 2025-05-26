@@ -1,20 +1,18 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table';
+import { selectEmployees } from '../../store/features/employeeSlice';
 import './page.css';
 
 /**
- * Page d'affichage de la liste des employés
+ * @component EmployeeList
+ * @description Composant d'affichage de la liste des employés avec pagination et filtrage
+ * @returns {JSX.Element} Liste des employés
  */
 const EmployeeList = () => {
-  // État pour stocker les données des employés
-  const [employees, setEmployees] = useState([]);
-  
-  // Chargement des données au montage du composant
-  useEffect(() => {
-    const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
-    setEmployees(storedEmployees);
-  }, []);
+  // Récupération des employés depuis Redux
+  const employees = useSelector(selectEmployees);
   
   // Définition des colonnes pour la table
   const columns = useMemo(
@@ -244,4 +242,4 @@ const EmployeeList = () => {
   );
 };
 
-export default EmployeeList; 
+export default EmployeeList;

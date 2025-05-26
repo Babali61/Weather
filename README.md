@@ -1,87 +1,106 @@
-# Welcome to React Router!
+# HRnet - Application de Gestion des Ressources Humaines
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## Description
+HRnet est une application web moderne de gestion des ressources humaines développée avec React. Elle permet de créer et gérer les employés d'une entreprise avec une interface utilisateur intuitive et performante.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Prérequis
+- Node.js (version 14.0.0 ou supérieure)
+- npm (version 6.0.0 ou supérieure)
+- Un navigateur web moderne (Chrome, Firefox, Safari, Edge)
 
-## Features
+## Installation
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+1. Clonez le dépôt :
+```bash
+git clone https://github.com/Babali61/Weather.git
+```
 
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
+2. Installez les dépendances :
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
-
+3. Pour le développement, lancez l'application :
 ```bash
-npm run dev
+npm start
 ```
 
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
+4. Pour la production, créez un build et lancez le serveur :
 ```bash
 npm run build
+npx serve -s dist
 ```
 
-## Deployment
+L'application sera accessible à l'adresse `http://localhost:3000`
 
-### Docker Deployment
+## Fonctionnalités
 
-To build and run using Docker:
+- Création d'un nouvel employé avec validation des données
+- Liste des employés avec pagination et filtrage
+- Gestion d'état globale avec Context API
+- Interface utilisateur responsive et moderne
+- Composants React personnalisés (Modal, DatePicker, Select)
 
+## Structure du Projet
+
+```
+Weather/
+├── app/
+│   ├── components/     # Composants réutilisables
+│   ├── data/       # Contextes React
+│   ├── routes/         # Pages de l'application
+│   └── store/       # Store Redux
+├── performance/      # Dossier de performance avec rapport et graphique de comparaison metric
+├── public/           # Fichiers statiques
+└── src/             # Code source principal
+```
+
+## Performance
+
+L'application a été optimisée pour de meilleures performances :
+- Utilisation de `useMemo` et `useCallback` pour la mémorisation
+- Gestion d'état optimisée avec Context API
+- Chargement paresseux des composants
+- Optimisation des rendus avec React.memo
+
+## Tests de Performance
+
+Les tests de performance peuvent être exécutés uniquement lorsque l'application est en version production (build) et accessible sur `http://localhost:3000`.
+
+Pour lancer les tests de performance :
+
+1. Assurez-vous que l'application est en version production :
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+npm run build
+npx serve -s dist
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+2. À la racine du projet, exécutez :
+```bash
+node performance/performance-test.js
 ```
 
-## Styling
+Cette commande va générer :
+- Un rapport de performance pour la version jQuery
+- Un rapport de performance pour la version React
+- Une image graphique comparant les performances des deux versions
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+Les rapports et le graphique seront générés dans le dossier `performance/`.
 
----
+## Contribution
 
-Built with ❤️ using React Router.
+1. Fork le projet
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/AmazingFeature`)
+3. Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrez une Pull Request
+
+## Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## Contact
+
+Yavuzyilmaz Ali - [https://www.linkedin.com/in/ali-yavuzyilmaz-0097a0150/]
+
+Lien du projet : [https://github.com/Babali61/Weather.git]
