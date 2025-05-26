@@ -31,7 +31,7 @@ npm run build
 npx serve -s dist
 ```
 
-L'application sera accessible à l'adresse `http://localhost:3000`
+L'application sera accessible à l'adresse `http://localhost:3000` en local et `https://10.0.0.2:3000` en network
 
 ## Fonctionnalités
 
@@ -65,7 +65,7 @@ L'application a été optimisée pour de meilleures performances :
 
 ## Tests de Performance
 
-Les tests de performance peuvent être exécutés uniquement lorsque l'application est en version production (build) et accessible sur `http://localhost:3000`.
+Les tests de performance peuvent être exécutés uniquement lorsque l'application est en version production (build) et accessible sur `http://10.0.0.2:3000`.
 
 Pour lancer les tests de performance :
 
