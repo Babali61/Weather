@@ -31,7 +31,7 @@ npm run build
 npx serve -s dist
 ```
 
-L'application sera accessible à l'adresse `http://localhost:3000`
+L'application sera accessible à l'adresse `http://localhost:3000` en local et `https://10.0.0.2:3000` en network
 
 ## Fonctionnalités
 
