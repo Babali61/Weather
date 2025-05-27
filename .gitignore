@@ -4,3 +4,7 @@
 # React Router
 /.react-router/
 /build/
+
+# Performance
+/performance/performance-reports/
+/performance/compare-perf-images/

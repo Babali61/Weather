@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createMetricsGraph } from './compare-perf-bar-metrics.js';
+import { generateChart } from './compare-network-requests-graph.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -42,11 +43,28 @@ async function runLighthouse(url, outputPath) {
 const appUrlReact = 'http://10.0.0.2:3000'; // Ajustez selon votre configuration
 const appUrlJquery = 'https://babali61.github.io/wealthhealthbefore/'; // Ajustez selon votre configuration
 
+// Fonction pour créer les dossiers nécessaires
+function createRequiredDirectories() {
+  const reportsDir = path.join(__dirname, 'performance-reports');
+  const imagesDir = path.join(__dirname, 'compare-perf-images');
 
+  if (!fs.existsSync(reportsDir)) {
+    fs.mkdirSync(reportsDir, { recursive: true });
+    console.log('Dossier performance-reports créé');
+  }
+
+  if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
+    console.log('Dossier compare-perf-images créé');
+  }
+}
 
 // Fonction principale pour exécuter tous les tests
 async function runAllTests() {
   try {
+    // Créer les dossiers nécessaires
+    createRequiredDirectories();
+
     console.log('Démarrage du test React...');
     await runLighthouse(appUrlReact, 'performance-report-react.json');
     
@@ -57,7 +75,10 @@ async function runAllTests() {
     
     // Créer le graphique des métriques après les tests
     await runCreateMetricsGraph();
-    
+    console.log('Graphique des métriques créé avec succès ! Vous pourrez le trouver dans le dossier performance/compare-perf-images');
+    await runGenerateChart();
+    console.log('Graphique des requêtes réseau généré avec succès ! Vous pourrez le trouver dans le dossier performance/compare-perf-images');
+
   } catch (error) {
     console.error('Erreur lors de l\'exécution des tests:', error);
   }
@@ -67,11 +88,17 @@ async function runAllTests() {
 async function runCreateMetricsGraph() {
   try {
     await createMetricsGraph();
-    console.log('Graphique des métriques créé avec succès ! Vous pourrez le trouver dans le dossier performance/compare-perf-images');
   } catch (error) {
     console.error('Erreur lors de la création du graphique:', error);
   }
 }
 
+async function runGenerateChart() {
+  try {
+    await generateChart();
+  } catch (error) {
+    console.error('Erreur lors de la génération du graphique:', error);
+  }
+}
 // Exécute tous les tests
 runAllTests();
