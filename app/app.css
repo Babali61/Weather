@@ -585,7 +585,7 @@ button:disabled, .button:disabled {
   margin-right: var(--spacing-xs);
 }
 
-/* Composant Modal personnalisé */
+/* Styles de base pour le modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -597,63 +597,6 @@ button:disabled, .button:disabled {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s;
-  backdrop-filter: blur(3px);
 }
 
-.modal {
-  background-color: var(--white);
-  border-radius: var(--border-radius);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: var(--spacing-xl);
-  position: relative;
-  animation: slideUp 0.3s;
-}
-
-.modal-close {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  border: none;
-  background: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--gray-500);
-  padding: var(--spacing-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  transition: var(--transition);
-}
-
-.modal-close:hover {
-  background-color: var(--gray-100);
-  color: var(--gray-800);
-}
-
-.modal-content {
-  margin-top: var(--spacing-sm);
-}
-
-.modal h2 {
-  margin-bottom: var(--spacing-md);
-  color: var(--primary-color);
-}
-
-.modal p {
-  margin-bottom: var(--spacing-lg);
-  color: var(--gray-700);
-}
-
-.modal .button-group {
-  display: flex;
-  gap: var(--spacing-sm);
-  justify-content: flex-end;
-}
+/* Les styles spécifiques du modal sont maintenant dans Modal.css */

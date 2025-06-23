@@ -31,7 +31,7 @@ npm run build
 npx serve -s dist
 ```
 
-L'application sera accessible à l'adresse `http://localhost:3000` en local et `https://10.0.0.2:3000` en network
+L'application sera accessible à l'adresse `http://localhost:3000` en local et `https://Votre-ip:3000` en network
 
 ## Fonctionnalités
 
@@ -47,13 +47,37 @@ L'application sera accessible à l'adresse `http://localhost:3000` en local et `
 Weather/
 ├── app/
 │   ├── components/     # Composants réutilisables
+│   │   └── [ComponentName]/  # Chaque composant a son propre dossier
+│   │       ├── [ComponentName].tsx
+│   │       └── [ComponentName].css  # Styles spécifiques au composant
 │   ├── data/       # Contextes React
 │   ├── routes/         # Pages de l'application
-│   └── store/       # Store Redux
+│   ├── store/       # Store Redux
+│   └── app.css      # Styles globaux et variables CSS
 ├── performance/      # Dossier de performance avec rapport et graphique de comparaison metric
 ├── public/           # Fichiers statiques
 └── src/             # Code source principal
 ```
+
+## Organisation des Styles CSS
+
+L'application suit une architecture CSS modulaire :
+
+1. **Styles Globaux** (`app/app.css`) :
+   - Variables CSS globales
+   - Styles de base (reset, typographie, layout)
+   - Composants communs (boutons, formulaires, tables)
+   - Utilitaires et animations
+
+2. **Styles des Composants** (`app/components/[ComponentName]/[ComponentName].css`) :
+   - Styles spécifiques à chaque composant
+   - Les styles des composants sont isolés dans leur propre fichier
+   - Importés directement dans le composant correspondant
+
+Cette organisation permet :
+- Une meilleure maintenabilité
+- L'évitement des conflits de styles
+- Une meilleure performance (seuls les styles nécessaires sont chargés)
 
 ## Performance
 
@@ -65,7 +89,7 @@ L'application a été optimisée pour de meilleures performances :
 
 ## Tests de Performance
 
-Les tests de performance peuvent être exécutés uniquement lorsque l'application est en version production (build) et accessible sur `http://10.0.0.2:3000`.
+Les tests de performance peuvent être exécutés uniquement lorsque l'application est en version production (build) et accessible sur `http://localhost:3000`.
 
 Pour lancer les tests de performance :
 

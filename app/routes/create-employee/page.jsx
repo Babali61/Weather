@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
-import Modal from '../../components/Modal';
+import EmployeeSuccessModal from '../../components/EmployeeSuccessModal';
 import { addEmployee } from '../../store/features/employeeSlice';
 import { states } from '../../data/states';
 import { departments } from '../../data/departments';
@@ -16,7 +16,6 @@ import './page.css';
  * @returns {JSX.Element} Formulaire de création d'employé
  */
 const CreateEmployee = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // États du formulaire
@@ -34,6 +33,7 @@ const CreateEmployee = () => {
   
   // État pour le modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [createdEmployee, setCreatedEmployee] = useState(null);
   
   // Options pour les selects
   const stateOptions = states.map(state => ({
@@ -74,6 +74,7 @@ const CreateEmployee = () => {
     };
     
     dispatch(addEmployee(newEmployee));
+    setCreatedEmployee(newEmployee);
     setIsModalOpen(true);
     resetForm();
   }, [formData, dispatch]);
@@ -94,24 +95,14 @@ const CreateEmployee = () => {
       department: null
     });
   }, []);
-  
-  // Boutons pour le pied de page du modal
-  const modalFooter = (
-    <>
-      <button 
-        onClick={() => navigate('/employee-list')}
-        className="button button-primary"
-      >
-        Voir la liste des employés
-      </button>
-      <button 
-        onClick={() => setIsModalOpen(false)}
-        className="button button-danger"
-      >
-        Fermer
-      </button>
-    </>
-  );
+
+  /**
+   * Fonction pour créer un autre employé
+   */
+  const handleCreateAnother = useCallback(() => {
+    // Focus sur le premier champ du formulaire
+    document.getElementById('first-name')?.focus();
+  }, []);
   
   return (
     <div className="create-employee fade-in">
@@ -258,19 +249,13 @@ const CreateEmployee = () => {
         </div>
       </div>
       
-      <Modal 
-        isOpen={isModalOpen} 
+      {/* Utilisation du composant modal réutilisable */}
+      <EmployeeSuccessModal 
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Employé créé"
-        footer={modalFooter}
-      >
-        <div className="message message-success">
-          L'employé a été créé avec succès et ajouté à la liste des employés.
-        </div>
-        <p>
-          Vous pouvez maintenant créer un autre employé ou consulter la liste des employés existants à l'aide des boutons ci-dessous.
-        </p>
-      </Modal>
+        employee={createdEmployee}
+        onCreateAnother={handleCreateAnother}
+      />
     </div>
   );
 };

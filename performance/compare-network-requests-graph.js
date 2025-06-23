@@ -98,5 +98,4 @@ async function generateChart() {
     throw error;
   }
 }
-
 export { generateChart };
