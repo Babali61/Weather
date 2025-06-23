@@ -1,5 +1,6 @@
 {
   "name": "my-react-app",
+  "homepage": "https://babali61.github.io/WealthHealth",
   "private": true,
   "type": "module",
   "scripts": {
