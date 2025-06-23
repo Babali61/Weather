@@ -2,7 +2,7 @@
 /node_modules/
 
 # Vite
-/dist/
+# /dist/
 
 app/components/node_modules
 

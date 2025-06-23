@@ -8,7 +8,7 @@ import './app.css';
  */
 function App() {
   return (
-    <Router>
+    <Router basename="/WealthHealth">
       <Routes>
         <Route path="/" element={<CreateEmployee />} />
         <Route path="/employee-list" element={<EmployeeList />} />
